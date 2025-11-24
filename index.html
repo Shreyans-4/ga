@@ -7,18 +7,24 @@
 </head>
 <body>
     <h1 class="title">Flappy Feelings</h1>
-    <p class="subtitle">Tap/Space to help my poor heart dodge the excuses I never sent.</p>
+    <p class="subtitle">Help my heart dodge the words I should've said earlier.</p>
 
-    <canvas id="game" width="400" height="500"></canvas>
+    <!-- START BUTTON -->
+    <button id="start-btn">Start Game</button>
 
+    <!-- GAME CANVAS -->
+    <canvas id="game" width="400" height="500" class="hidden"></canvas>
+
+    <!-- APOLOGY MODAL -->
     <div id="message-modal" class="hidden">
         <div class="modal-content">
             <h2>I Owe You This</h2>
             <p>
-                Congrats, you survived my excuse-maze.<br><br>
-                And honestly… I’m sorry I ghosted you.  
-                You deserved an actual message, not radio silence.  
-                If you’re open to it, I’d like to talk — no pressure, just honesty.
+                You made it through all the “sorrys”, “maafis”, “shamsis”, and even a “como estas” 💀  
+                So here's the truth:<br><br>
+                I'm really sorry for ghosting you.  
+                You didn’t deserve the silence, and I want to do better.  
+                If you're open to it, I'd love to talk — for real this time.
             </p>
             <button id="close-btn">Close</button>
         </div>
