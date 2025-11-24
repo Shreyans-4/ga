@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dodge My Excuses</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <title>Flappy Feelings</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1 class="title">Dodge My Excuses</h1>
-    <p class="subtitle">Survive 15 seconds while avoiding all the excuses I *didn't* say when I ghosted you.</p>
+    <h1 class="title">Flappy Feelings</h1>
+    <p class="subtitle">Tap/Space to help my poor heart dodge the excuses I never sent.</p>
 
-    <div id="game-area"></div>
+    <canvas id="game" width="400" height="500"></canvas>
 
     <div id="message-modal" class="hidden">
         <div class="modal-content">
-            <h2>My Apology</h2>
-            <p id="apology">
-                Okay… you won.<br><br>
-                I’m really sorry for ghosting you.  
-                Not because you caught me in this game,  
-                but because you deserved honesty — not silence.<br><br>
-                If you're open to it, I'd love a chance to explain myself  
-                (with actual words this time, not flying excuses).  
-                No pressure — just sincerity. 💛
+            <h2>I Owe You This</h2>
+            <p>
+                Congrats, you survived my excuse-maze.<br><br>
+                And honestly… I’m sorry I ghosted you.  
+                You deserved an actual message, not radio silence.  
+                If you’re open to it, I’d like to talk — no pressure, just honesty.
             </p>
             <button id="close-btn">Close</button>
         </div>
