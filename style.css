@@ -37,12 +37,12 @@ body {
     box-shadow: 0 0 15px rgba(255,100,150,0.25);
 }
 
-.hidden {
+/* universal hide class — fixes everything */
+.hide {
     display: none;
 }
 
-/* FIXED MODAL (truly invisible now when hidden) */
-#message-modal {
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -54,18 +54,13 @@ body {
     align-items: center;
 }
 
-/* Correct hiding */
-.modal-hidden {
-    display: none!important;
-}
-
 .modal-content {
     width: 350px;
     background: white;
     padding: 25px;
     border-radius: 10px;
     text-align: center;
-    animation: fadeIn 0.4s ease;
+    animation: fadeIn .4s ease;
 }
 
 #close-btn {
