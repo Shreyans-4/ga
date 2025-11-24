@@ -1,49 +1,25 @@
 body {
     margin: 0;
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #ffe7ef, #fffdfd);
     text-align: center;
+    background: linear-gradient(140deg, #ffdaec, #fff);
+    font-family: "Poppins", sans-serif;
 }
 
 .title {
     margin-top: 20px;
-    font-size: 2.7em;
-    color: #ff5a8a;
+    color: #ff5890;
+    font-size: 2.4em;
 }
 
 .subtitle {
-    color: #555;
-    margin-bottom: 15px;
+    color: #444;
+    margin-bottom: 10px;
 }
 
-#game-area {
-    margin: 0 auto;
-    width: 600px;
-    height: 350px;
-    background: white;
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(255,80,120,0.25);
-}
-
-.player {
-    width: 40px;
-    height: 40px;
-    background: #ff5a8a;
-    border-radius: 50%;
-    position: absolute;
-}
-
-.excuse {
-    position: absolute;
-    padding: 6px 10px;
-    background: #ffd1e0;
-    border-radius: 6px;
-    color: #333;
-    font-size: 14px;
-    white-space: nowrap;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+#game {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,100,150,0.25);
 }
 
 #message-modal {
@@ -58,28 +34,25 @@ body {
     align-items: center;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 .modal-content {
+    width: 350px;
     background: white;
     padding: 25px;
     border-radius: 10px;
-    width: 380px;
     text-align: center;
     animation: fadeIn 0.4s ease;
 }
 
 #close-btn {
-    margin-top: 20px;
-    background: #ff5a8a;
-    color: white;
+    margin-top: 15px;
+    padding: 10px 22px;
+    background: #ff5890;
     border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
 }
 
 @keyframes fadeIn {
