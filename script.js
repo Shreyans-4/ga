@@ -1,61 +1,131 @@
-body {
-    margin: 0;
-    text-align: center;
-    background: linear-gradient(140deg, #ffdaec, #fff);
-    font-family: "Poppins", sans-serif;
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const modal = document.getElementById("message-modal");
+const closeBtn = document.getElementById("close-btn");
+
+let heart = { x: 60, y: 200, vel: 0 };
+let gravity = 0.4;
+let jump = -7;
+let pipes = [];
+let frame = 0;
+let score = 0;
+let gameOver = false;
+
+const excuseLabels = [
+    "I fell asleep 😴",
+    "My phone died 🔋",
+    "Oops forgot 😬",
+    "Chaos week 😵",
+    "Bad texter 💀",
+    "Brain empty 🧠✨"
+];
+
+function resetGame() {
+    heart.y = 200;
+    heart.vel = 0;
+    pipes = [];
+    frame = 0;
+    score = 0;
+    gameOver = false;
 }
 
-.title {
-    margin-top: 20px;
-    color: #ff5890;
-    font-size: 2.4em;
+// create pipes
+function spawnPipe() {
+    let gap = 140;
+    let topHeight = Math.random() * 250 + 20;
+    pipes.push({
+        x: 400,
+        top: topHeight,
+        bottom: topHeight + gap,
+        label: excuseLabels[Math.floor(Math.random() * excuseLabels.length)]
+    });
 }
 
-.subtitle {
-    color: #444;
-    margin-bottom: 10px;
+function drawHeart() {
+    ctx.fillStyle = "#ff5890";
+    ctx.beginPath();
+    ctx.arc(heart.x, heart.y, 15, 0, Math.PI * 2);
+    ctx.fill();
 }
 
-#game {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255,100,150,0.25);
+function drawPipes() {
+    ctx.fillStyle = "#ffd2e5";
+    ctx.font = "14px Poppins";
+
+    pipes.forEach((p) => {
+        ctx.fillRect(p.x, 0, 60, p.top);
+        ctx.fillRect(p.x, p.bottom, 60, canvas.height - p.bottom);
+        ctx.fillStyle = "#444";
+        ctx.fillText(p.label, p.x + 5, p.top / 2);
+        ctx.fillStyle = "#ffd2e5";
+    });
 }
 
-#message-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.45);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+function update() {
+    if (gameOver) return;
+
+    frame++;
+
+    heart.vel += gravity;
+    heart.y += heart.vel;
+
+    if (frame % 90 === 0) spawnPipe();
+
+    pipes.forEach((p) => {
+        p.x -= 2;
+
+        // score when passing
+        if (p.x + 60 === heart.x) score++;
+
+        // collision
+        if (
+            heart.x + 15 > p.x &&
+            heart.x - 15 < p.x + 60 &&
+            (heart.y - 15 < p.top || heart.y + 15 > p.bottom)
+        ) {
+            gameOver = true;
+        }
+    });
+
+    // off-screen = remove
+    pipes = pipes.filter((p) => p.x > -60);
+
+    // ground/ceiling collision
+    if (heart.y > canvas.height || heart.y < 0) gameOver = true;
+
+    if (gameOver) {
+        // Win condition: score >= 8 (≈ surviving ~20 seconds)
+        if (score >= 8) {
+            modal.classList.remove("hidden");
+        } else {
+            alert("Oof — hit by an excuse! Try again 🙈");
+            resetGame();
+        }
+    }
 }
 
-.hidden { display: none; }
-
-.modal-content {
-    width: 350px;
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.4s ease;
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawHeart();
+    drawPipes();
+    ctx.fillStyle = "#333";
+    ctx.font = "20px Poppins";
+    ctx.fillText("Score: " + score, 10, 25);
 }
 
-#close-btn {
-    margin-top: 15px;
-    padding: 10px 22px;
-    background: #ff5890;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+document.addEventListener("keydown", () => (heart.vel = jump));
+document.addEventListener("mousedown", () => (heart.vel = jump));
+
+closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+});
+
+resetGame();
+gameLoop();
