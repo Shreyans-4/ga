@@ -16,10 +16,29 @@ body {
     margin-bottom: 10px;
 }
 
+#start-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background: #ff5890;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#start-btn:hover {
+    background: #ff3a7d;
+}
+
 #game {
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(255,100,150,0.25);
+}
+
+.hidden {
+    display: none;
 }
 
 #message-modal {
@@ -33,8 +52,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-.hidden { display: none; }
 
 .modal-content {
     width: 350px;
@@ -55,7 +72,12 @@ body {
     cursor: pointer;
 }
 
+#close-btn:hover {
+    background: #ff3a7d;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
