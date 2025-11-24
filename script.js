@@ -6,25 +6,15 @@ const modal = document.getElementById("message-modal");
 const closeBtn = document.getElementById("close-btn");
 
 // GAME VARIABLES
-let heart = { x: 60, y: 200, vel: 0 };
+let heart, pipes, frame, score;
 let gravity = 0.4;
 let jump = -7;
-let pipes = [];
-let frame = 0;
-let score = 0;
 let gameRunning = false;
 
-// CUSTOM WORDS YOU WANTED
+// Custom labels
 const labels = ["sorry", "maafi", "shamsi", "como estas"];
 
-// START BUTTON CLICK
-startBtn.addEventListener("click", () => {
-    startBtn.classList.add("hidden");
-    canvas.classList.remove("hidden");
-    startGame();
-});
-
-// RESET ALL GAME VALUES
+// RESET GAME STATE
 function resetGame() {
     heart = { x: 60, y: 200, vel: 0 };
     pipes = [];
@@ -32,17 +22,22 @@ function resetGame() {
     score = 0;
 }
 
-// START GAME
-function startGame() {
+// START BUTTON
+startBtn.addEventListener("click", () => {
+    modal.classList.add("modal-hidden");
+    startBtn.classList.add("hidden");
+    canvas.classList.remove("hidden");
+
     resetGame();
     gameRunning = true;
     loop();
-}
+});
 
-// CREATE A PIPE
+// SPAWN PIPE
 function spawnPipe() {
     let gap = 140;
     let topH = Math.random() * 250 + 20;
+
     pipes.push({
         x: 400,
         top: topH,
@@ -65,9 +60,7 @@ function drawPipes() {
     ctx.font = "14px Poppins";
 
     pipes.forEach((p) => {
-        // top pipe
         ctx.fillRect(p.x, 0, 60, p.top);
-        // bottom pipe
         ctx.fillRect(p.x, p.bottom, 60, canvas.height - p.bottom);
 
         ctx.fillStyle = "#333";
@@ -76,25 +69,22 @@ function drawPipes() {
     });
 }
 
-// GAME LOOP
 function loop() {
     if (!gameRunning) return;
 
     frame++;
 
-    // movement
     heart.vel += gravity;
     heart.y += heart.vel;
 
-    // spawn pipes
     if (frame % 90 === 0) spawnPipe();
 
-    // move pipes + detect collision
     pipes.forEach((p) => {
         p.x -= 2;
 
         if (p.x + 60 === heart.x) score++;
 
+        // Collision
         const hit =
             heart.x + 15 > p.x &&
             heart.x - 15 < p.x + 60 &&
@@ -103,16 +93,12 @@ function loop() {
         if (hit) return lose();
     });
 
-    // remove off screen pipes
     pipes = pipes.filter((p) => p.x > -60);
 
-    // off screen top/bottom
     if (heart.y < 0 || heart.y > canvas.height) return lose();
 
-    // WIN = score reaches 8
     if (score >= 8) return win();
 
-    // DRAW
     draw();
 
     requestAnimationFrame(loop);
@@ -128,33 +114,30 @@ function draw() {
     ctx.fillText("Score: " + score, 10, 25);
 }
 
-// LOSE FUNCTION
 function lose() {
     gameRunning = false;
     alert("You hit one of the words 😭 Try again!");
-    startBtn.classList.remove("hidden");
+
     canvas.classList.add("hidden");
+    startBtn.classList.remove("hidden");
 }
 
-// WIN FUNCTION
 function win() {
     gameRunning = false;
-    modal.classList.remove("hidden");
+    modal.classList.remove("modal-hidden");
 }
 
-// CLOSE APOLOGY MODAL
+// CLOSE APOLOGY
 closeBtn.addEventListener("click", () => {
-    modal.classList.add("hidden");
+    modal.classList.add("modal-hidden");
     startBtn.classList.remove("hidden");
     canvas.classList.add("hidden");
 });
 
-// TAP / SPACE JUMP
+// Jump controls
 document.addEventListener("keydown", () => {
     if (gameRunning) heart.vel = jump;
 });
-
 document.addEventListener("mousedown", () => {
     if (gameRunning) heart.vel = jump;
 });
-
